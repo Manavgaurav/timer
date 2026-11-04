@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AETHER TIME - Ultra Luxury Chrono Suite</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Phosphor Icons for ultra-crisp UI -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+            display: ['"Space Grotesk"', 'sans-serif']
+          },
+          colors: {
+            noir: {
+              950: '#030508',
+              900: '#090d16',
+              850: '#0e1424',
+              800: '#141d33',
+              700: '#232f4e'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --accent: 6, 182, 212; /* Default Cyan rgb */
+      --accent-hex: #06b6d4;
+    }
+    .accent-bg { background-color: rgba(var(--accent), 0.15); }
+    .accent-border { border-color: rgba(var(--accent), 0.35); }
+    .accent-glow { box-shadow: 0 0 35px -5px rgba(var(--accent), 0.45); }
+    .accent-text { color: var(--accent-hex); }
+
+    /* Ultra Fine Glassmorphism */
+    .glass-dock {
+      background: rgba(10, 15, 26, 0.65);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+    .glass-surface {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%), rgba(9, 13, 22, 0.75);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    }
+    .glass-surface-subtle {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    /* Dynamic Grid Pattern */
+    .bg-grid {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    }
+    /* Hide number arrows */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
+  </style>
+</head>
+<body class="bg-noir-950 text-slate-100 min-h-screen font-sans selection:bg-cyan-500/20 selection:text-cyan-300 relative overflow-x-hidden flex flex-col justify-between p-3 sm:p-6 md:p-8 bg-grid">
+
+  <!-- Dynamic Ambient Lighting Blobs -->
+  <div id="ambientBlob1" class="fixed -top-40 -left-40 w-[55vw] h-[55vw] rounded-full bg-cyan-600/15 blur-[140px] pointer-events-none transition-colors duration-1000"></div>
+  <div id="ambientBlob2" class="fixed -bottom-40 -right-40 w-[55vw] h-[55vw] rounded-full bg-violet-600/15 blur-[140px] pointer-events-none transition-colors duration-1000"></div>
+  <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[35vw] h-[35vw] rounded-full bg-blue-600/5 blur-[160px] pointer-events-none"></div>
+
+  <!-- Top Header Navigation -->
+  <header class="w-full max-w-4xl mx-auto flex items-center justify-between z-20 pb-4">
+    <div class="flex items-center gap-3.5">
+      <div class="relative w-11 h-11 rounded-2xl glass-dock flex items-center justify-center p-0.5 group cursor-pointer transition-transform duration-300 hover:scale-105">
+        <div class="w-full h-full rounded-[14px] bg-gradient-to-tr from-cyan-500/20 via-slate-800/50 to-transparent flex items-center justify-center border border-white/10">
+          <i class="ph-bold ph-atom text-xl text-cyan-400 group-hover:rotate-180 transition-transform duration-700" id="brandLogoIcon"></i>
+        </div>
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="font-display font-bold text-lg tracking-wider uppercase bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">AETHER</span>
+          <span class="text-[10px] tracking-widest uppercase font-mono px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-cyan-300">v3.0</span>
+        </div>
+        <p class="text-xs text-slate-400 font-medium">Precision Chrono Engine</p>
+      </div>
+    </div>
+
+    <!-- Theme Accents & Control Bar -->
+    <div class="flex items-center gap-2 sm:gap-3">
+      <!-- Color Palette Switcher -->
+      <div class="glass-surface-subtle p-1.5 rounded-2xl flex items-center gap-1.5 border border-white/10 shadow-lg">
+        <button onclick="setAccent('cyan', '#06b6d4', '6, 182, 212')" title="Cyber Cyan" class="theme-dot w-4 h-4 rounded-full bg-cyan-400 ring-2 ring-white/80 ring-offset-2 ring-offset-noir-950 transition-all scale-110" data-theme="cyan"></button>
+        <button onclick="setAccent('purple', '#a855f7', '168, 85, 247')" title="Neon Violet" class="theme-dot w-4 h-4 rounded-full bg-purple-500 hover:opacity-100 opacity-60 transition-all" data-theme="purple"></button>
+        <button onclick="setAccent('emerald', '#10b981', '16, 185, 129')" title="Matrix Emerald" class="theme-dot w-4 h-4 rounded-full bg-emerald-400 hover:opacity-100 opacity-60 transition-all" data-theme="emerald"></button>
+        <button onclick="setAccent('amber', '#f59e0b', '245, 158, 11')" title="Solar Amber" class="theme-dot w-4 h-4 rounded-full bg-amber-400 hover:opacity-100 opacity-60 transition-all" data-theme="amber"></button>
+        <button onclick="setAccent('rose', '#f43f5e', '244, 63, 94')" title="Hyper Rose" class="theme-dot w-4 h-4 rounded-full bg-rose-500 hover:opacity-100 opacity-60 transition-all" data-theme="rose"></button>
+      </div>
+
+      <!-- Sound Mute/Unmute -->
+      <button id="soundToggleBtn" onclick="toggleAudio()" title="Toggle Synthesizer Feedback" class="w-10 h-10 rounded-2xl glass-surface-subtle hover:bg-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-all border border-white/10">
+        <i id="soundIcon" class="ph-bold ph-speaker-high text-lg text-cyan-400"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Central Dynamic Workspace -->
+  <main class="w-full max-w-4xl mx-auto flex-1 flex flex-col items-center justify-center my-2 sm:my-4 z-20">
+    
+    <!-- Modern Floating Pill Tab Switcher -->
+    <div class="glass-dock p-1.5 rounded-full flex items-center gap-1.5 mb-6 sm:mb-8 border border-white/10 w-full max-w-md shadow-2xl relative">
+      <button onclick="switchTab('clock')" id="tab-clock" class="tab-pill relative flex-1 py-2.5 px-4 rounded-full text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-all duration-300 text-white bg-white/10 border border-white/15 shadow-sm">
+        <i class="ph-bold ph-clock text-base"></i>
+        <span>Clock</span>
+      </button>
+      <button onclick="switchTab('stopwatch')" id="tab-stopwatch" class="tab-pill relative flex-1 py-2.5 px-4 rounded-full text-xs sm:text-sm font-medium flex items-center justify-center gap-2 text-slate-400 hover:text-slate-200 transition-all duration-300">
+        <i class="ph-bold ph-timer text-base"></i>
+        <span>Stopwatch</span>
+      </button>
+      <button onclick="switchTab('timer')" id="tab-timer" class="tab-pill relative flex-1 py-2.5 px-4 rounded-full text-xs sm:text-sm font-medium flex items-center justify-center gap-2 text-slate-400 hover:text-slate-200 transition-all duration-300">
+        <i class="ph-bold ph-hourglass-high text-base"></i>
+        <span>Timer</span>
+      </button>
+    </div>
+
+    <!-- ==================== VIEW 1: CLOCK ==================== -->
+    <section id="clock-view" class="w-full flex flex-col items-center transition-all duration-500">
+      <div class="w-full glass-surface rounded-[32px] p-6 sm:p-10 md:p-12 relative flex flex-col items-center overflow-hidden">
+        
+        <!-- Controls row: Clock Format & Mode -->
+        <div class="w-full flex items-center justify-between mb-4">
+          <!-- Timezone chip -->
+          <div class="flex items-center gap-2 px-3 py-1.5 rounded-full glass-surface-subtle border border-white/5 text-xs text-slate-400">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span id="tzDisplay" class="font-mono">UTC</span>
+          </div>
+
+          <!-- Analog vs Digital Toggle -->
+          <button onclick="toggleAnalogClock()" id="clockModeBtn" class="flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-surface-subtle hover:bg-white/10 border border-white/10 text-xs font-medium text-slate-300 hover:text-white transition-all">
+            <i class="ph-bold ph-aperture text-sm text-cyan-400" id="clockModeIcon"></i>
+            <span id="clockModeLabel">Show Minimalist Analog</span>
+          </button>
+        </div>
+
+        <!-- Minimalist Luxury Analog Clock -->
+        <div id="analogContainer" class="hidden flex-col items-center my-4 animate-fade-in">
+          <div class="relative w-64 h-64 sm:w-72 sm:h-72 rounded-full bg-gradient-to-b from-slate-900/90 to-noir-950 border border-white/10 shadow-[inset_0_4px_30px_rgba(0,0,0,0.8)] flex items-center justify-center">
+            <!-- 12 Dial Markers -->
+            <div class="absolute inset-0 p-3 pointer-events-none">
+              <span class="absolute top-3 left-1/2 -translate-x-1/2 font-mono text-[11px] font-bold text-slate-500">12</span>
+              <span class="absolute right-3 top-1/2 -translate-y-1/2 font-mono text-[11px] font-bold text-slate-500">3</span>
+              <span class="absolute bottom-3 left-1/2 -translate-x-1/2 font-mono text-[11px] font-bold text-slate-500">6</span>
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 font-mono text-[11px] font-bold text-slate-500">9</span>
+              <!-- Minor ticks -->
+              <div class="absolute inset-0 flex items-center justify-center opacity-30">
+                <div class="w-full h-0.5 border-t border-dashed border-slate-600"></div>
+              </div>
+            </div>
+
+            <!-- Central Bezel Core -->
+            <div class="w-4 h-4 rounded-full bg-slate-900 border-2 border-cyan-400 z-30 shadow-[0_0_15px_rgba(6,182,212,0.8)]" id="analogPivot"></div>
+
+            <!-- Hands -->
+            <div id="hourHand" class="absolute w-1.5 h-16 sm:h-20 bg-slate-100 rounded-full origin-bottom bottom-1/2 left-[calc(50%-3px)] shadow-lg transition-transform ease-out"></div>
+            <div id="minHand" class="absolute w-1 h-24 sm:h-28 bg-gradient-to-t from-cyan-500 to-cyan-200 rounded-full origin-bottom bottom-1/2 left-[calc(50%-2px)] shadow-lg transition-transform ease-out" id="minHandColor"></div>
+            <div id="secHand" class="absolute w-0.5 h-28 sm:h-32 bg-rose-500 rounded-full origin-bottom bottom-1/2 left-[calc(50%-1px)] transition-transform ease-linear shadow-[0_0_10px_#f43f5e]"></div>
+          </div>
+        </div>
+
+        <!-- Big Luxury Digital Time -->
+        <div class="my-4 sm:my-6 flex items-baseline justify-center gap-2 sm:gap-4 select-none">
+          <span id="digitalTime" class="font-mono text-6xl sm:text-8xl md:text-9xl font-bold tracking-tighter text-white drop-shadow-[0_0_35px_rgba(255,255,255,0.15)]">
+            00:00:00
+          </span>
+          <span id="ampmPill" class="text-xs sm:text-sm font-mono font-bold tracking-wider px-2.5 py-1 rounded-xl bg-white/5 border border-white/10 text-cyan-400">
+            AM
+          </span>
+        </div>
+
+        <!-- Date & Calendar details -->
+        <div class="flex items-center gap-2 text-sm sm:text-base font-medium text-slate-300 mb-8">
+          <i class="ph-bold ph-calendar-blank text-cyan-400"></i>
+          <span id="dateFull">Loading...</span>
+        </div>
+
+        <!-- Live Progress Visualizers: Day Progress & Year Progress -->
+        <div class="w-full max-w-lg grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 border-t border-white/10">
+          <div class="glass-surface-subtle p-3.5 rounded-2xl border border-white/5 flex flex-col gap-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-slate-400 flex items-center gap-1.5"><i class="ph-bold ph-sun text-amber-400"></i> Day Passed</span>
+              <span id="dayProgressPercent" class="font-mono font-semibold text-slate-200">0%</span>
+            </div>
+            <div class="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
+              <div id="dayProgressBar" class="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full w-0 transition-all duration-1000"></div>
+            </div>
+          </div>
+
+          <div class="glass-surface-subtle p-3.5 rounded-2xl border border-white/5 flex flex-col gap-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-slate-400 flex items-center gap-1.5"><i class="ph-bold ph-planet text-violet-400"></i> Year Passed</span>
+              <span id="yearProgressPercent" class="font-mono font-semibold text-slate-200">0%</span>
+            </div>
+            <div class="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
+              <div id="yearProgressBar" class="h-full bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-full w-0 transition-all duration-1000"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 12h / 24h Selector -->
+        <div class="mt-8 flex items-center gap-3">
+          <button onclick="setHourFormat(false)" id="fmt12Btn" class="px-3.5 py-1 rounded-full text-xs font-mono font-semibold bg-white/10 text-white border border-white/15 transition-all">12-HOUR</button>
+          <button onclick="setHourFormat(true)" id="fmt24Btn" class="px-3.5 py-1 rounded-full text-xs font-mono font-semibold text-slate-400 hover:text-white transition-all">24-HOUR</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 2: STOPWATCH ==================== -->
+    <section id="stopwatch-view" class="w-full hidden flex-col items-center transition-all duration-500">
+      <div class="w-full glass-surface rounded-[32px] p-6 sm:p-10 md:p-12 flex flex-col items-center relative overflow-hidden">
+        
+        <!-- Large High Precision Digital Stopwatch Display -->
+        <div class="font-mono text-5xl sm:text-7xl md:text-8xl font-bold tracking-tight text-white my-6 flex items-baseline drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+          <span id="swHours" class="hidden text-slate-300">00<span class="text-slate-600 mr-2">:</span></span>
+          <span id="swMinutes">00</span><span class="text-slate-600">:</span>
+          <span id="swSeconds">00</span>
+          <span class="text-2xl sm:text-3xl md:text-4xl text-slate-600 ml-1">.</span>
+          <span id="swMillis" class="text-2xl sm:text-3xl md:text-4xl font-semibold text-cyan-400 w-16 sm:w-24 text-left ml-0.5">000</span>
+        </div>
+
+        <!-- Keyboard hints bar -->
+        <div class="hidden sm:flex items-center gap-4 text-[11px] font-mono text-slate-400 mb-8">
+          <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded bg-white/10 text-slate-300 border border-white/10">Space</kbd> Start / Stop</span>
+          <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded bg-white/10 text-slate-300 border border-white/10">L</kbd> Lap</span>
+          <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded bg-white/10 text-slate-300 border border-white/10">R</kbd> Reset</span>
+        </div>
+
+        <!-- Controls Action Row -->
+        <div class="flex items-center gap-3 sm:gap-5">
+          <!-- Start / Stop Button -->
+          <button id="swStartBtn" onclick="toggleStopwatch()" class="px-8 sm:px-10 py-4 rounded-2xl bg-white text-noir-950 font-bold text-sm tracking-wide flex items-center gap-2.5 shadow-xl hover:bg-slate-200 transition-all transform active:scale-95">
+            <i id="swStartIcon" class="ph-bold ph-play text-lg"></i>
+            <span id="swStartLabel">Start</span>
+          </button>
+
+          <!-- Lap Button -->
+          <button id="swLapBtn" onclick="recordLap()" disabled class="px-6 sm:px-8 py-4 rounded-2xl glass-surface-subtle hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white font-semibold text-sm flex items-center gap-2 transition-all disabled:opacity-30 disabled:pointer-events-none transform active:scale-95">
+            <i class="ph-bold ph-flag text-lg text-cyan-400"></i>
+            <span>Lap</span>
+          </button>
+
+          <!-- Reset Button -->
+          <button id="swResetBtn" onclick="resetStopwatch()" disabled class="w-13 h-13 p-4 rounded-2xl glass-surface-subtle hover:bg-rose-500/10 hover:border-rose-500/40 text-slate-400 hover:text-rose-400 border border-white/10 transition-all disabled:opacity-30 disabled:pointer-events-none transform active:scale-95" title="Reset (R)">
+            <i class="ph-bold ph-arrow-counter-clockwise text-xl"></i>
+          </button>
+        </div>
+
+        <!-- Lap History with Best/Worst Highlighting -->
+        <div id="swLapContainer" class="w-full max-w-xl mt-8 pt-6 border-t border-white/10 hidden">
+          <div class="flex items-center justify-between text-xs font-mono font-semibold uppercase text-slate-400 px-4 pb-2 border-b border-white/5">
+            <span>Lap</span>
+            <span>Split</span>
+            <span>Total</span>
+          </div>
+          <div id="swLapList" class="flex flex-col divide-y divide-white/5 max-h-56 overflow-y-auto mt-1 pr-1 font-mono text-sm">
+            <!-- Dynamic Laps -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 3: COUNTDOWN TIMER ==================== -->
+    <section id="timer-view" class="w-full hidden flex-col items-center transition-all duration-500">
+      <div class="w-full glass-surface rounded-[32px] p-6 sm:p-10 md:p-12 flex flex-col items-center relative overflow-hidden">
+        
+        <!-- Radial Glowing Progress Dial -->
+        <div class="relative w-64 h-64 sm:w-80 sm:h-80 flex items-center justify-center my-2">
+          <svg class="w-full h-full -rotate-90" viewBox="0 0 280 280">
+            <!-- Background Ring -->
+            <circle cx="140" cy="140" r="118" stroke="currentColor" stroke-width="8" fill="transparent" class="text-white/5"></circle>
+            <!-- Progress Radial Ring -->
+            <circle id="timerRing" cx="140" cy="140" r="118" stroke="currentColor" stroke-width="9" fill="transparent" stroke-linecap="round" stroke-dasharray="741.4" stroke-dashoffset="0" class="text-cyan-400 transition-all duration-300 drop-shadow-[0_0_15px_rgba(6,182,212,0.6)]"></circle>
+          </svg>
+
+          <!-- Center Content: Numbers or Custom Pickers -->
+          <div class="absolute inset-0 flex flex-col items-center justify-center">
+            <!-- Normal Counter Display -->
+            <div id="timerDigitsDisplay" class="flex flex-col items-center">
+              <span id="timerTimeText" class="font-mono text-5xl sm:text-6xl font-bold tracking-tight text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                05:00
+              </span>
+              <span id="timerStatusBadge" class="text-[11px] font-mono tracking-widest uppercase px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-400 mt-3">
+                IDLE
+              </span>
+            </div>
+
+            <!-- Custom Interactive Time Dial Inputs -->
+            <div id="timerCustomInputs" class="hidden flex items-center gap-2">
+              <div class="flex flex-col items-center">
+                <input id="inputH" type="number" min="0" max="99" value="0" class="w-14 sm:w-16 h-14 text-center text-2xl font-mono font-bold bg-white/5 border border-white/10 rounded-2xl focus:border-cyan-400 focus:outline-none text-white">
+                <span class="text-[10px] font-mono text-slate-400 mt-1 uppercase">Hours</span>
+              </div>
+              <span class="text-2xl font-bold text-slate-600 -mt-4">:</span>
+              <div class="flex flex-col items-center">
+                <input id="inputM" type="number" min="0" max="59" value="5" class="w-14 sm:w-16 h-14 text-center text-2xl font-mono font-bold bg-white/5 border border-white/10 rounded-2xl focus:border-cyan-400 focus:outline-none text-white">
+                <span class="text-[10px] font-mono text-slate-400 mt-1 uppercase">Mins</span>
+              </div>
+              <span class="text-2xl font-bold text-slate-600 -mt-4">:</span>
+              <div class="flex flex-col items-center">
+                <input id="inputS" type="number" min="0" max="59" value="0" class="w-14 sm:w-16 h-14 text-center text-2xl font-mono font-bold bg-white/5 border border-white/10 rounded-2xl focus:border-cyan-400 focus:outline-none text-white">
+                <span class="text-[10px] font-mono text-slate-400 mt-1 uppercase">Secs</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Preset Badges -->
+        <div id="timerPresetRow" class="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 mt-3 mb-6">
+          <button onclick="setPreset(60)" class="px-3.5 py-1.5 rounded-xl glass-surface-subtle hover:bg-white/10 border border-white/10 text-xs font-mono text-slate-300 hover:text-white transition-all">+1m</button>
+          <button onclick="setPreset(300)" class="px-3.5 py-1.5 rounded-xl glass-surface-subtle hover:bg-white/10 border border-white/10 text-xs font-mono text-slate-300 hover:text-white transition-all">5m</button>
+          <button onclick="setPreset(600)" class="px-3.5 py-1.5 rounded-xl glass-surface-subtle hover:bg-white/10 border border-white/10 text-xs font-mono text-slate-300 hover:text-white transition-all">10m</button>
+          <button onclick="setPreset(1500)" class="px-3.5 py-1.5 rounded-xl glass-surface-subtle hover:bg-white/10 border border-white/10 text-xs font-mono text-slate-300 hover:text-white transition-all">25m <span class="text-cyan-400 text-[10px] ml-1">Focus</span></button>
+          <button onclick="setPreset(2700)" class="px-3.5 py-1.5 rounded-xl glass-surface-subtle hover:bg-white/10 border border-white/10 text-xs font-mono text-slate-300 hover:text-white transition-all">45m</button>
+        </div>
+
+        <!-- Action Controls -->
+        <div class="flex items-center gap-3 sm:gap-5">
+          <button id="timerToggleBtn" onclick="toggleTimer()" class="px-8 sm:px-10 py-4 rounded-2xl bg-white text-noir-950 font-bold text-sm tracking-wide flex items-center gap-2.5 shadow-xl hover:bg-slate-200 transition-all transform active:scale-95">
+            <i id="timerToggleIcon" class="ph-bold ph-play text-lg"></i>
+            <span id="timerToggleLabel">Start</span>
+          </button>
+
+          <button id="timerEditBtn" onclick="toggleTimerEditor()" class="w-13 h-13 p-4 rounded-2xl glass-surface-subtle hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white transition-all transform active:scale-95" title="Custom Duration">
+            <i id="timerEditIcon" class="ph-bold ph-sliders-horizontal text-xl"></i>
+          </button>
+
+          <button onclick="resetTimer()" class="w-13 h-13 p-4 rounded-2xl glass-surface-subtle hover:bg-rose-500/10 hover:border-rose-500/40 text-slate-400 hover:text-rose-400 border border-white/10 transition-all transform active:scale-95" title="Reset">
+            <i class="ph-bold ph-arrow-counter-clockwise text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Celebration Completed Alert Box -->
+    <div id="timerCompletionModal" class="hidden fixed bottom-8 z-50 px-6 py-4 rounded-3xl glass-surface border border-rose-500/50 shadow-2xl flex items-center gap-4 animate-bounce">
+      <div class="w-10 h-10 rounded-2xl bg-rose-500/20 text-rose-400 border border-rose-500/40 flex items-center justify-center text-xl">
+        <i class="ph-bold ph-bell-ringing"></i>
+      </div>
+      <div>
+        <h4 class="font-bold text-sm text-white">Timer Completed</h4>
+        <p class="text-xs text-slate-400">Target duration has elapsed.</p>
+      </div>
+      <button onclick="dismissTimerAlert()" class="ml-2 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-semibold text-white">Dismiss</button>
+    </div>
+
+  </main>
+
+  <!-- Modern Luxury Footer -->
+  <footer class="w-full max-w-4xl mx-auto flex items-center justify-between text-xs text-slate-500 font-mono py-2 z-20 border-t border-white/5">
+    <span>AETHER TIME &bull; PRECISION ENGINE</span>
+    <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span> 60 FPS SYNCED</span>
+  </footer>
+
+  <!-- ==================== LOGIC JAVASCRIPT ==================== -->
+  <script>
+    /* --------------------------------------------------------------------------
+       1. WEB AUDIO SYNTHESIS ENGINE (Subtle futuristic sound effects)
+       -------------------------------------------------------------------------- */
+    let audioContext = null;
+    let isSoundOn = true;
+
+    function getAudioCtx() {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      return audioContext;
+    }
+
+    function playSyntheticSound(freq = 600, type = 'sine', duration = 0.08) {
+      if (!isSoundOn) return;
+      try {
+        const ctx = getAudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+        gain.gain.setValueAtTime(0.06, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function playAlarmFanfare() {
+      if (!isSoundOn) return;
+      const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+      notes.forEach((freq, idx) => {
+        setTimeout(() => playSyntheticSound(freq, 'triangle', 0.25), idx * 160);
+      });
+    }
+
+    function toggleAudio() {
+      isSoundOn = !isSoundOn;
+      const icon = document.getElementById('soundIcon');
+      if (isSoundOn) {
+        icon.className = 'ph-bold ph-speaker-high text-lg text-cyan-400';
+        playSyntheticSound(800, 'sine', 0.05);
+      } else {
+        icon.className = 'ph-bold ph-speaker-slash text-lg text-slate-500';
+      }
+    }
+
+    /* --------------------------------------------------------------------------
+       2. COLOR PALETTE SWITCHER
+       -------------------------------------------------------------------------- */
+    let currentAccentHex = '#06b6d4';
+
+    function setAccent(name, hex, rgb) {
+      currentAccentHex = hex;
+      document.documentElement.style.setProperty('--accent', rgb);
+      document.documentElement.style.setProperty('--accent-hex', hex);
+
+      // Update ambient glow blobs
+      const blob1 = document.getElementById('ambientBlob1');
+      if (name === 'cyan') blob1.className = 'fixed -top-40 -left-40 w-[55vw] h-[55vw] rounded-full bg-cyan-600/15 blur-[140px] pointer-events-none transition-colors duration-1000';
+      if (name === 'purple') blob1.className = 'fixed -top-40 -left-40 w-[55vw] h-[55vw] rounded-full bg-purple-600/15 blur-[140px] pointer-events-none transition-colors duration-1000';
+      if (name === 'emerald') blob1.className = 'fixed -top-40 -left-40 w-[55vw] h-[55vw] rounded-full bg-emerald-600/15 blur-[140px] pointer-events-none transition-colors duration-1000';
+      if (name === 'amber') blob1.className = 'fixed -top-40 -left-40 w-[55vw] h-[55vw] rounded-full bg-amber-600/15 blur-[140px] pointer-events-none transition-colors duration-1000';
+      if (name === 'rose') blob1.className = 'fixed -top-40 -left-40 w-[55vw] h-[55vw] rounded-full bg-rose-600/15 blur-[140px] pointer-events-none transition-colors duration-1000';
+
+      // Update theme dots visual
+      document.querySelectorAll('.theme-dot').forEach(dot => {
+        if (dot.dataset.theme === name) {
+          dot.classList.add('ring-2', 'ring-white/80', 'ring-offset-2', 'ring-offset-noir-950', 'scale-110');
+          dot.classList.remove('opacity-60');
+        } else {
+          dot.classList.remove('ring-2', 'ring-white/80', 'ring-offset-2', 'ring-offset-noir-950', 'scale-110');
+          dot.classList.add('opacity-60');
+        }
+      });
+
+      // Update timer ring stroke color
+      const timerRing = document.getElementById('timerRing');
+      if (timerRing) timerRing.style.color = hex;
+
+      // Update analog pivot & min hand
+      const pivot = document.getElementById('analogPivot');
+      if (pivot) pivot.style.borderColor = hex;
+
+      playSyntheticSound(900, 'sine', 0.04);
+    }
+
+    /* --------------------------------------------------------------------------
+       3. NAVIGATION TABS
+       -------------------------------------------------------------------------- */
+    const views = {
+      clock: document.getElementById('clock-view'),
+      stopwatch: document.getElementById('stopwatch-view'),
+      timer: document.getElementById('timer-view')
+    };
+
+    const tabs = {
+      clock: document.getElementById('tab-clock'),
+      stopwatch: document.getElementById('tab-stopwatch'),
+      timer: document.getElementById('tab-timer')
+    };
+
+    function switchTab(key) {
+      Object.keys(views).forEach(v => {
+        views[v].classList.add('hidden');
+        tabs[v].className = 'tab-pill relative flex-1 py-2.5 px-4 rounded-full text-xs sm:text-sm font-medium flex items-center justify-center gap-2 text-slate-400 hover:text-slate-200 transition-all duration-300';
+      });
+
+      views[key].classList.remove('hidden');
+      tabs[key].className = 'tab-pill relative flex-1 py-2.5 px-4 rounded-full text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-all duration-300 text-white bg-white/10 border border-white/15 shadow-sm';
+      playSyntheticSound(650, 'sine', 0.03);
+    }
+
+    /* --------------------------------------------------------------------------
+       4. CLOCK MODULE (Dual Analog / Digital + Day/Year Progress Bars)
+       -------------------------------------------------------------------------- */
+    let is24HourMode = false;
+    let showAnalog = false;
+
+    function setHourFormat(use24) {
+      is24HourMode = use24;
+      const btn12 = document.getElementById('fmt12Btn');
+      const btn24 = document.getElementById('fmt24Btn');
+      const ampmPill = document.getElementById('ampmPill');
+
+      if (use24) {
+        btn24.className = 'px-3.5 py-1 rounded-full text-xs font-mono font-semibold bg-white/10 text-white border border-white/15 transition-all';
+        btn12.className = 'px-3.5 py-1 rounded-full text-xs font-mono font-semibold text-slate-400 hover:text-white transition-all';
+        ampmPill.classList.add('hidden');
+      } else {
+        btn12.className = 'px-3.5 py-1 rounded-full text-xs font-mono font-semibold bg-white/10 text-white border border-white/15 transition-all';
+        btn24.className = 'px-3.5 py-1 rounded-full text-xs font-mono font-semibold text-slate-400 hover:text-white transition-all';
+        ampmPill.classList.remove('hidden');
+      }
+      playSyntheticSound(700, 'sine', 0.04);
+      updateClockUI();
+    }
+
+    function toggleAnalogClock() {
+      showAnalog = !showAnalog;
+      const analog = document.getElementById('analogContainer');
+      const label = document.getElementById('clockModeLabel');
+      if (showAnalog) {
+        analog.classList.remove('hidden');
+        label.textContent = 'Hide Analog Dial';
+      } else {
+        analog.classList.add('hidden');
+        label.textContent = 'Show Minimalist Analog';
+      }
+      playSyntheticSound(550, 'sine', 0.04);
+    }
+
+    function updateClockUI() {
+      const now = new Date();
+      let hours = now.getHours();
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      let ampm = 'AM';
+
+      if (!is24HourMode) {
+        ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+      }
+      const formattedHours = String(hours).padStart(2, '0');
+
+      document.getElementById('digitalTime').textContent = `${formattedHours}:${minutes}:${seconds}`;
+      document.getElementById('ampmPill').textContent = ampm;
+
+      // Full Date
+      const dateOpts = { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' };
+      document.getElementById('dateFull').textContent = now.toLocaleDateString(undefined, dateOpts);
+
+      // Analog Hands
+      const secFraction = (now.getSeconds() + now.getMilliseconds() / 1000) / 60;
+      const minFraction = (now.getMinutes() + secFraction) / 60;
+      const hrFraction = ((now.getHours() % 12) + minFraction) / 12;
+
+      const secHand = document.getElementById('secHand');
+      const minHand = document.getElementById('minHand');
+      const hourHand = document.getElementById('hourHand');
+
+      if (secHand) secHand.style.transform = `rotate(${secFraction * 360}deg)`;
+      if (minHand) minHand.style.transform = `rotate(${minFraction * 360}deg)`;
+      if (hourHand) hourHand.style.transform = `rotate(${hrFraction * 360}deg)`;
+
+      // Day Progress
+      const secondsToday = (now.getHours() * 3600) + (now.getMinutes() * 60) + now.getSeconds();
+      const dayPercent = ((secondsToday / 86400) * 100).toFixed(1);
+      document.getElementById('dayProgressPercent').textContent = `${dayPercent}%`;
+      document.getElementById('dayProgressBar').style.width = `${dayPercent}%`;
+
+      // Year Progress
+      const startOfYear = new Date(now.getFullYear(), 0, 1);
+      const endOfYear = new Date(now.getFullYear() + 1, 0, 1);
+      const yearPercent = (((now - startOfYear) / (endOfYear - startOfYear)) * 100).toFixed(2);
+      document.getElementById('yearProgressPercent').textContent = `${yearPercent}%`;
+      document.getElementById('yearProgressBar').style.width = `${yearPercent}%`;
+    }
+
+    // High smooth animation loop for Analog Sweep & Digital Update
+    function clockTick() {
+      updateClockUI();
+      requestAnimationFrame(clockTick);
+    }
+    requestAnimationFrame(clockTick);
+
+    // Initial Timezone
+    try {
+      document.getElementById('tzDisplay').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone || 'LOCAL';
+    } catch(e) {}
+
+    /* --------------------------------------------------------------------------
+       5. STOPWATCH MODULE (High precision + Lap Deltas + Best/Worst highlighting)
+       -------------------------------------------------------------------------- */
+    let swIsRunning = false;
+    let swStartTime = 0;
+    let swAccumulated = 0;
+    let swRafId = null;
+    let swLaps = [];
+    let swLastLapTime = 0;
+
+    function formatSwTime(ms) {
+      const h = Math.floor(ms / 3600000);
+      const m = Math.floor((ms % 3600000) / 60000);
+      const s = Math.floor((ms % 60000) / 1000);
+      const millis = ms % 1000;
+      return {
+        h: String(h).padStart(2, '0'),
+        m: String(m).padStart(2, '0'),
+        s: String(s).padStart(2, '0'),
+        ms: String(millis).padStart(3, '0'),
+        hasHours: h > 0
+      };
+    }
+
+    function renderStopwatch() {
+      const current = swAccumulated + (swIsRunning ? (performance.now() - swStartTime) : 0);
+      const f = formatSwTime(Math.floor(current));
+
+      const swHoursElem = document.getElementById('swHours');
+      if (f.hasHours) {
+        swHoursElem.classList.remove('hidden');
+        swHoursElem.innerHTML = `${f.h}<span class="text-slate-600 mr-2">:</span>`;
+      } else {
+        swHoursElem.classList.add('hidden');
+      }
+
+      document.getElementById('swMinutes').textContent = f.m;
+      document.getElementById('swSeconds').textContent = f.s;
+      document.getElementById('swMillis').textContent = f.ms;
+
+      if (swIsRunning) {
+        swRafId = requestAnimationFrame(renderStopwatch);
+      }
+    }
+
+    function toggleStopwatch() {
+      const startBtn = document.getElementById('swStartBtn');
+      const startLabel = document.getElementById('swStartLabel');
+      const startIcon = document.getElementById('swStartIcon');
+      const lapBtn = document.getElementById('swLapBtn');
+      const resetBtn = document.getElementById('swResetBtn');
+
+      if (!swIsRunning) {
+        // Start
+        swIsRunning = true;
+        swStartTime = performance.now();
+        swRafId = requestAnimationFrame(renderStopwatch);
+
+        startLabel.textContent = 'Pause';
+        startIcon.className = 'ph-bold ph-pause text-lg';
+        startBtn.classList.replace('bg-white', 'bg-amber-400');
+        startBtn.classList.replace('text-noir-950', 'text-slate-950');
+
+        lapBtn.disabled = false;
+        resetBtn.disabled = false;
+        playSyntheticSound(750, 'sine', 0.05);
+      } else {
+        // Pause
+        swIsRunning = false;
+        swAccumulated += performance.now() - swStartTime;
+        cancelAnimationFrame(swRafId);
+
+        startLabel.textContent = 'Resume';
+        startIcon.className = 'ph-bold ph-play text-lg';
+        startBtn.classList.replace('bg-amber-400', 'bg-white');
+        startBtn.classList.replace('text-slate-950', 'text-noir-950');
+        lapBtn.disabled = true;
+        playSyntheticSound(450, 'sine', 0.05);
+      }
+    }
+
+    function resetStopwatch() {
+      swIsRunning = false;
+      cancelAnimationFrame(swRafId);
+      swAccumulated = 0;
+      swLastLapTime = 0;
+      swLaps = [];
+
+      document.getElementById('swHours').classList.add('hidden');
+      document.getElementById('swMinutes').textContent = '00';
+      document.getElementById('swSeconds').textContent = '00';
+      document.getElementById('swMillis').textContent = '000';
+
+      const startBtn = document.getElementById('swStartBtn');
+      document.getElementById('swStartLabel').textContent = 'Start';
+      document.getElementById('swStartIcon').className = 'ph-bold ph-play text-lg';
+      startBtn.classList.remove('bg-amber-400');
+      startBtn.classList.add('bg-white');
+
+      document.getElementById('swLapBtn').disabled = true;
+      document.getElementById('swResetBtn').disabled = true;
+
+      document.getElementById('swLapContainer').classList.add('hidden');
+      document.getElementById('swLapList').innerHTML = '';
+      playSyntheticSound(350, 'sine', 0.06);
+    }
+
+    function recordLap() {
+      if (!swIsRunning) return;
+      const totalMs = Math.floor(swAccumulated + (performance.now() - swStartTime));
+      const splitMs = totalMs - swLastLapTime;
+      swLastLapTime = totalMs;
+
+      const lapIndex = swLaps.length + 1;
+      swLaps.unshift({ lapIndex, splitMs, totalMs });
+      renderLaps();
+      playSyntheticSound(850, 'sine', 0.04);
+    }
+
+    function renderLaps() {
+      const container = document.getElementById('swLapContainer');
+      const list = document.getElementById('swLapList');
+      container.classList.remove('hidden');
+      list.innerHTML = '';
+
+      if (swLaps.length === 0) return;
+
+      // Find min and max split for color indicators
+      let minSplit = Infinity;
+      let maxSplit = -Infinity;
+
+      if (swLaps.length >= 2) {
+        swLaps.forEach(lap => {
+          if (lap.splitMs < minSplit) minSplit = lap.splitMs;
+          if (lap.splitMs > maxSplit) maxSplit = lap.splitMs;
+        });
+      }
+
+      swLaps.forEach(lap => {
+        const splitF = formatSwTime(lap.splitMs);
+        const totalF = formatSwTime(lap.totalMs);
+
+        let splitColorClass = 'text-slate-300';
+        let badge = '';
+
+        if (swLaps.length >= 2) {
+          if (lap.splitMs === minSplit) {
+            splitColorClass = 'text-emerald-400 font-bold';
+            badge = '<span class="text-[9px] uppercase px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 ml-2">Fastest</span>';
+          } else if (lap.splitMs === maxSplit) {
+            splitColorClass = 'text-rose-400 font-bold';
+            badge = '<span class="text-[9px] uppercase px-1.5 py-0.5 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20 ml-2">Slowest</span>';
+          }
+        }
+
+        const item = document.createElement('div');
+        item.className = 'flex items-center justify-between py-2.5 px-4';
+        item.innerHTML = `
+          <div class="flex items-center">
+            <span class="text-xs text-slate-500 font-bold">#${String(lap.lapIndex).padStart(2, '0')}</span>
+            ${badge}
+          </div>
+          <span class="${splitColorClass}">+${splitF.m}:${splitF.s}.${splitF.ms}</span>
+          <span class="text-white font-medium">${totalF.m}:${totalF.s}.${totalF.ms}</span>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    // Keyboard shortcuts for stopwatch
+    window.addEventListener('keydown', (e) => {
+      // Don't trigger if typing in an input
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+
+      if (e.code === 'Space') {
+        e.preventDefault();
+        toggleStopwatch();
+      } else if (e.key.toLowerCase() === 'l') {
+        if (!document.getElementById('swLapBtn').disabled) recordLap();
+      } else if (e.key.toLowerCase() === 'r') {
+        if (!document.getElementById('swResetBtn').disabled) resetStopwatch();
+      }
+    });
+
+    /* --------------------------------------------------------------------------
+       6. COUNTDOWN TIMER MODULE (SVG Ring Dial, Custom Pickers & Presets)
+       -------------------------------------------------------------------------- */
+    let timerTargetDuration = 300; // 5 min default
+    let timerCurrentSeconds = 300;
+    let timerRunning = false;
+    let timerInterval = null;
+    let isEditingCustom = false;
+    const RING_CIRCUMFERENCE = 2 * Math.PI * 118; // ~741.4
+
+    const timerRing = document.getElementById('timerRing');
+    timerRing.style.strokeDasharray = RING_CIRCUMFERENCE;
+
+    function formatTimerSeconds(sec) {
+      const h = Math.floor(sec / 3600);
+      const m = Math.floor((sec % 3600) / 60);
+      const s = sec % 60;
+      if (h > 0) {
+        return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+      }
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function refreshTimerDisplay() {
+      document.getElementById('timerTimeText').textContent = formatTimerSeconds(timerCurrentSeconds);
+
+      if (timerTargetDuration > 0) {
+        const ratio = timerCurrentSeconds / timerTargetDuration;
+        const offset = RING_CIRCUMFERENCE * (1 - ratio);
+        timerRing.style.strokeDashoffset = offset;
+      } else {
+        timerRing.style.strokeDashoffset = 0;
+      }
+    }
+
+    function toggleTimer() {
+      if (isEditingCustom) commitTimerInput();
+
+      const btn = document.getElementById('timerToggleBtn');
+      const label = document.getElementById('timerToggleLabel');
+      const icon = document.getElementById('timerToggleIcon');
+      const badge = document.getElementById('timerStatusBadge');
+
+      if (!timerRunning) {
+        if (timerCurrentSeconds <= 0) {
+          timerCurrentSeconds = timerTargetDuration;
+        }
+
+        timerRunning = true;
+        badge.textContent = 'RUNNING';
+        badge.className = 'text-[11px] font-mono tracking-widest uppercase px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 mt-3';
+
+        label.textContent = 'Pause';
+        icon.className = 'ph-bold ph-pause text-lg';
+        btn.classList.replace('bg-white', 'bg-amber-400');
+        btn.classList.replace('text-noir-950', 'text-slate-950');
+
+        timerInterval = setInterval(() => {
+          if (timerCurrentSeconds > 0) {
+            timerCurrentSeconds--;
+            refreshTimerDisplay();
+          } else {
+            timerCompleteEvent();
+          }
+        }, 1000);
+        playSyntheticSound(700, 'sine', 0.05);
+      } else {
+        pauseTimer();
+      }
+    }
+
+    function pauseTimer() {
+      timerRunning = false;
+      clearInterval(timerInterval);
+
+      const btn = document.getElementById('timerToggleBtn');
+      const label = document.getElementById('timerToggleLabel');
+      const icon = document.getElementById('timerToggleIcon');
+      const badge = document.getElementById('timerStatusBadge');
+
+      badge.textContent = 'PAUSED';
+      badge.className = 'text-[11px] font-mono tracking-widest uppercase px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 mt-3';
+
+      label.textContent = 'Resume';
+      icon.className = 'ph-bold ph-play text-lg';
+      btn.classList.replace('bg-amber-400', 'bg-white');
+      btn.classList.replace('text-slate-950', 'text-noir-950');
+      playSyntheticSound(500, 'sine', 0.05);
+    }
+
+    function resetTimer() {
+      pauseTimer();
+      dismissTimerAlert();
+      timerCurrentSeconds = timerTargetDuration;
+      refreshTimerDisplay();
+
+      const badge = document.getElementById('timerStatusBadge');
+      badge.textContent = 'IDLE';
+      badge.className = 'text-[11px] font-mono tracking-widest uppercase px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-400 mt-3';
+      playSyntheticSound(400, 'sine', 0.05);
+    }
+
+    function timerCompleteEvent() {
+      pauseTimer();
+      timerCurrentSeconds = 0;
+      refreshTimerDisplay();
+
+      const badge = document.getElementById('timerStatusBadge');
+      badge.textContent = 'FINISHED';
+      badge.className = 'text-[11px] font-mono tracking-widest uppercase px-3 py-1 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-400 mt-3';
+
+      document.getElementById('timerCompletionModal').classList.remove('hidden');
+      playAlarmFanfare();
+    }
+
+    function dismissTimerAlert() {
+      document.getElementById('timerCompletionModal').classList.add('hidden');
+    }
+
+    function setPreset(seconds) {
+      if (timerRunning) pauseTimer();
+      dismissTimerAlert();
+      timerTargetDuration = seconds;
+      timerCurrentSeconds = seconds;
+
+      document.getElementById('inputH').value = Math.floor(seconds / 3600);
+      document.getElementById('inputM').value = Math.floor((seconds % 3600) / 60);
+      document.getElementById('inputS').value = seconds % 60;
+
+      refreshTimerDisplay();
+      playSyntheticSound(600, 'sine', 0.04);
+    }
+
+    function toggleTimerEditor() {
+      isEditingCustom = !isEditingCustom;
+      const digits = document.getElementById('timerDigitsDisplay');
+      const inputs = document.getElementById('timerCustomInputs');
+      const editIcon = document.getElementById('timerEditIcon');
+
+      if (isEditingCustom) {
+        if (timerRunning) pauseTimer();
+        digits.classList.add('hidden');
+        inputs.classList.remove('hidden');
+        editIcon.className = 'ph-bold ph-check text-xl text-emerald-400';
+      } else {
+        commitTimerInput();
+      }
+    }
+
+    function commitTimerInput() {
+      const h = parseInt(document.getElementById('inputH').value) || 0;
+      const m = parseInt(document.getElementById('inputM').value) || 0;
+      const s = parseInt(document.getElementById('inputS').value) || 0;
+
+      let total = (h * 3600) + (m * 60) + s;
+      if (total <= 0) total = 60; // 1 min minimum fallback
+
+      timerTargetDuration = total;
+      timerCurrentSeconds = total;
+
+      document.getElementById('timerCustomInputs').classList.add('hidden');
+      document.getElementById('timerDigitsDisplay').classList.remove('hidden');
+      document.getElementById('timerEditIcon').className = 'ph-bold ph-sliders-horizontal text-xl';
+      isEditingCustom = false;
+
+      refreshTimerDisplay();
+      playSyntheticSound(620, 'sine', 0.04);
+    }
+
+    // Initialize Timer UI
+    refreshTimerDisplay();
+  </script>
+</body>
+</html>
